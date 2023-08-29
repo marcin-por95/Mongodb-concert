@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
-const db = require('../db');
+const db = require('./../db');
 
-router.get("/", (req, res) => {
+router.route('/seats').get((req, res) => {
     res.json(db.seats);
 });
 
-router.get('/:id', (req, res) => {
+router.route('/seats/:id').get((req, res) => {
     const { id } = req.params;
     const seatid = db.seats.find((item) => item.id.toString() === id);
     if(seatid) {
@@ -17,7 +17,7 @@ router.get('/:id', (req, res) => {
     }
 });
 
-router.post('/', (req ,res) => {
+router.route('/seats').post((req ,res) => {
     const { day, seat, client, email } = req.body;
     if (day && seat && client && email) {
         const newSeat = {
@@ -34,7 +34,7 @@ router.post('/', (req ,res) => {
     }
 });
 
-router.put('/:id', (req, res) => {
+router.route('/seats/:id').put((req, res) => {
     const { id } = req.params;
     const { day, seat, client, email } = req.body;
 
@@ -48,9 +48,9 @@ router.put('/:id', (req, res) => {
     }
 });
 
-router.delete('/:id', (req, res) => {
+router.route('/seats/:id').delete((req, res) => {
     const { id } = req.params;
-    const seatIndex = db.concerts.findIndex((item) => item.id.toString() === id);
+    const seatIndex = db.seats.findIndex((item) => item.id.toString() === id);
 
     if(seatIndex !== -1) {
         db.seats.splice(seatIndex, 1);

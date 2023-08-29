@@ -4,19 +4,19 @@ const { v4: uuidv4 } = require('uuid');
 const db = require('../db');
 
 // GET /testimonials
-router.get('/', (req, res) => {
+router.route('/testimonials').get((req, res) => {
     res.json(db.testimonials);
 });
 
 // GET /testimonials/random
-router.get('/random', (req, res) => {
+router.route('/testimonials/random').get((req, res) => {
     const randomIndex = Math.floor(Math.random() * db.testimonials.length);
     const randomTestimonial = db.testimonials[randomIndex];
     res.json(randomTestimonial);
 });
 
 // GET /testimonials/:id
-router.get('/:id', (req, res) => {
+router.route('/testimonials/:id').get((req, res) => {
     const { id } = req.params;
     const testimonial = db.testimonials.find((item) => item.id.toString() === id);
     if (testimonial) {
@@ -27,11 +27,11 @@ router.get('/:id', (req, res) => {
 });
 
 // POST /testimonials
-router.post('/', (req, res) => {
+router.route('/testimonials').post((req, res) => {
     const { author, text } = req.body;
     if (author && text) {
         const newTestimonial = {
-            id: uuidv4(),
+            id: uuidv4(), // Generate a random ID using uuid
             author,
             text,
         };
@@ -43,7 +43,7 @@ router.post('/', (req, res) => {
 });
 
 // PUT /testimonials/:id
-router.put('/:id', (req, res) => {
+router.route('/testimonials/:id').put((req, res) => {
     const { id } = req.params;
     const { author, text } = req.body;
 
@@ -58,7 +58,7 @@ router.put('/:id', (req, res) => {
 });
 
 // DELETE /testimonials/:id
-router.delete('/:id', (req, res) => {
+router.route('/testimonials/:id').delete((req, res) => {
     const { id } = req.params;
     const testimonialIndex = db.testimonials.findIndex((item) => item.id.toString() === id);
 

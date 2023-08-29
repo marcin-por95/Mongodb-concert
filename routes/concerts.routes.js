@@ -3,11 +3,11 @@ const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const db = require('../db');
 
-router.get('/', (req, res) => {
+router.route('/concerts').get((req, res) => {
     res.json(db.concerts);
 });
 
-router.get('/:id', (req, res) => {
+router.route('/concerts/:id').get((req, res) => {
     const { id } = req.params;
     const concert = db.concerts.find((item) => item.id.toString() === id);
     if(concert) {
@@ -17,7 +17,7 @@ router.get('/:id', (req, res) => {
     }
 });
 
-router.post('/', (req, res) => {
+router.route('/concerts').post((req, res) => {
     const { performer, genre, price, day, image} = req.body;
     if (performer && genre && price && day && image) {
         const newConcert = {
@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
     }
 });
 
-router.put('/:id', (req, res) => {
+router.route('/concerts/:id').put((req, res) => {
     const { id } = req.params;
     const { performer, genre, price, day, image } = req.body;
 
@@ -49,7 +49,7 @@ router.put('/:id', (req, res) => {
     }
 });
 
-router.delete('/:id', (req, res) => {
+router.route('/concerts/:id').delete((req, res) => {
     const { id } = req.params;
     const concertIndex = db.concerts.findIndex((item) => item.id.toString() === id);
 

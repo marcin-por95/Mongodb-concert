@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { API_URL } from '../config';
 
-/* SELECTORS */
+
 export const getSeats = ({ seats }) => seats.data;
 export const getRequests = ({ seats }) => seats.requests;
 
-/* ACTIONS */
 
-// action name creator
+
+
 const reducerName = 'seats';
 const createActionName = name => `app/${reducerName}/${name}`;
 
@@ -25,7 +25,7 @@ export const errorRequest = payload => ({ payload, type: ERROR_REQUEST });
 export const loadSeats = payload => ({ payload, type: LOAD_SEATS });
 export const addSeat = payload => ({ payload, type: ADD_SEAT });
 
-/* THUNKS */
+
 
 export const loadSeatsRequest = () => {
   return async dispatch => {
@@ -56,7 +56,7 @@ export const addSeatRequest = (seat) => {
       dispatch(addSeat(res));
       dispatch(endRequest({ name: 'ADD_SEAT' }));
 
-      // After a successful reservation, refresh seats data immediately
+
       dispatch(loadSeatsRequest());
     } catch(e) {
       dispatch(errorRequest({ name: 'ADD_SEAT', error: e.message }));
@@ -65,14 +65,14 @@ export const addSeatRequest = (seat) => {
   };
 };
 
-/* INITIAL STATE */
+
 
 const initialState = {
   data: [],
   requests: {},
 };
 
-/* REDUCER */
+
 
 export default function reducer(statePart = initialState, action = {}) {
   switch (action.type) {
