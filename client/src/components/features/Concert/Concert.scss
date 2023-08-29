@@ -1,0 +1,47 @@
+// Definicje kolorów
+$color-text-light: #ffffff;
+$color-text-dark: #333333;
+$color-primary: #007bff;
+$color-secondary: #6c757d;
+$color-success: #28a745;
+$color-warning: #ffc107;
+$color-danger: #dc3545;
+$color-info: #17a2b8;
+
+// Przykładowe użycie zdefiniowanych kolorów
+.concert {
+  background: $color-text-light;
+  color: $color-text-dark;
+}
+
+.button-primary {
+  background: $color-primary;
+  color: $color-text-light;
+}
+
+.button-secondary {
+  background: $color-secondary;
+  color: $color-text-light;
+}
+
+.alert-success {
+  background: $color-success;
+  color: $color-text-light;
+}
+
+.alert-warning {
+  background: $color-warning;
+  color: $color-text-dark;
+}
+
+.alert-danger {
+  background: $color-danger;
+  color: $color-text-light;
+}
+
+.alert-info {
+  background: $color-info;
+  color: $color-text-light;
+}
+
+// Reszta stylów...
