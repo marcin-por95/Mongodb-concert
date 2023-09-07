@@ -1,12 +1,9 @@
 import axios from 'axios';
 import { API_URL } from '../config';
 
-
+/* SELECTORS */
 export const getSeats = ({ seats }) => seats.data;
 export const getRequests = ({ seats }) => seats.requests;
-
-
-
 
 const reducerName = 'seats';
 const createActionName = name => `app/${reducerName}/${name}`;

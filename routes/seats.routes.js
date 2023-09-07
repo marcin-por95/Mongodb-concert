@@ -3,11 +3,11 @@ const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const db = require('./../db');
 
-router.route('/seats').get((req, res) => {
+router.get('/', (req, res) => {
     res.json(db.seats);
 });
 
-router.route('/seats/:id').get((req, res) => {
+router.get('/:id', (req, res) => {
     const { id } = req.params;
     const seatid = db.seats.find((item) => item.id.toString() === id);
     if(seatid) {
@@ -17,24 +17,38 @@ router.route('/seats/:id').get((req, res) => {
     }
 });
 
-router.route('/seats').post((req ,res) => {
+router.post('/', (req ,res) => {
     const { day, seat, client, email } = req.body;
-    if (day && seat && client && email) {
-        const newSeat = {
-            id: uuidv4(),
-            day,
-            seat,
-            client,
-            email,
-        };
-        db.seats.push(newSeat);
-        res.json({ message: 'OK'});
-    } else {
-        res.status(400).json({ message: 'Bad Request - all fields required'});
+    if (!day || !seat || !client || !email) {
+        return res.status(400).json({ error: 'One or more mandatory fields omitted.' });
     }
+    const parsedDay = parseInt(day);
+    const parsedSeat = parseInt(seat);
+
+    if (isNaN(parsedDay) || isNaN(parsedSeat)) {
+        return res.status(400).json({ error: 'Invalid day or seat value.' });
+    }
+
+    const isTaken = db.seats.some(item => item.day === parsedDay && item.seat === parsedSeat);
+    if (isTaken) {
+        return res.status(409).json({ message: 'The slot is already taken...' });
+    }
+
+    const newSeat = {
+        id: uuidv4(),
+        day: parsedDay,
+        seat: parsedSeat,
+        client,
+        email };
+
+    // Add the new seat to the db.seats array
+    db.seats.push(newSeat);
+    req.io.emit('seatsUpdated', db.seats);
+
+    res.status(201).json({ message: 'OK' });
 });
 
-router.route('/seats/:id').put((req, res) => {
+router.put('/:id', (req, res) => {
     const { id } = req.params;
     const { day, seat, client, email } = req.body;
 
@@ -48,7 +62,7 @@ router.route('/seats/:id').put((req, res) => {
     }
 });
 
-router.route('/seats/:id').delete((req, res) => {
+router.delete('/:id', (req, res) => {
     const { id } = req.params;
     const seatIndex = db.seats.findIndex((item) => item.id.toString() === id);
 
