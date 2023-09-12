@@ -1,65 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const { v4: uuidv4 } = require('uuid');
-const db = require('../db');
+const ConcertController = require('../controllers/concerts.controller.js')
 
-router.route('/concerts').get((req, res) => {
-    res.json(db.concerts);
-});
+router.get('/concerts', ConcertController.getAll);
 
-router.route('/concerts/:id').get((req, res) => {
-    const { id } = req.params;
-    const concert = db.concerts.find((item) => item.id.toString() === id);
-    if(concert) {
-        res.json(concert);
-    } else {
-        res.status(404).json({ message: 'Concert not found'});
-    }
-});
+router.get('/concerts/:id', ConcertController.getConById);
 
-router.route('/concerts').post((req, res) => {
-    const { performer, genre, price, day, image} = req.body;
-    if (performer && genre && price && day && image) {
-        const newConcert = {
-            id: uuidv4(),
-            performer,
-            genre,
-            price,
-            day,
-            image,
-        };
-        db.concerts.push(newConcert);
-        res.json({ message: 'OK'});
-    } else {
-        res.status(400).json({ message: 'Bad Request - all fields required' });
-    }
-});
+router.post('/concerts', ConcertController.addCon);
 
-router.route('/concerts/:id').put((req, res) => {
-    const { id } = req.params;
-    const { performer, genre, price, day, image } = req.body;
+router.put('/concerts/:id', ConcertController.editCon);
 
-    const concertIndex = db.concerts.findIndex((item) => item.id.toString() === id);
+router.delete('/concerts/:id', ConcertController.delete);
 
-    if(concertIndex !== -1 && performer && genre && price && day && image) {
-        db.concerts[concertIndex] = { ...db.concerts[concertIndex], performer, genre, price, day, image};
-        res.json({ message: 'OK' })
-    } else {
-        res.status(404).json({ message: 'Concert not found or missing data'});
-    }
-});
+// SEARCHING ENDPOINTS
 
-router.route('/concerts/:id').delete((req, res) => {
-    const { id } = req.params;
-    const concertIndex = db.concerts.findIndex((item) => item.id.toString() === id);
+router.get('/concerts/performer/:performer', ConcertController.getConByPerformer);
 
-    if(concertIndex !== -1) {
-        db.concerts.splice(concertIndex, 1);
-        res.json({ message: 'OK' });
-    } else {
-        res.status(404).json({ message: 'Concert not found' });
-    }
-});
+router.get('/concerts/genre/:genre', ConcertController.getConByGenre);
 
+router.get('/concerts/price/:price_min/:price_max', ConcertController.getConByPriceRange);
+
+router.get('/concerts/price/day/:day', ConcertController.getConByDay);
 
 module.exports = router;
