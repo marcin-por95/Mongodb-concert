@@ -23,7 +23,7 @@ app.use(express.urlencoded({extended: true}));
 app.use('/api', testimonialsRouter);
 app.use('/api', concertsRouter);
 app.use('/api', seatsRouter);
-
+app.use(express.static(path.join(__dirname, '/client/build')));
 app.use((req, res) => {
     res.status(404).json({message: 'Not found...'});
 });
