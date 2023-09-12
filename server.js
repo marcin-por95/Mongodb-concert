@@ -37,8 +37,10 @@ app.use((err, req, res) => {
 mongoose.set("debug", (collectionName, method, query, doc) => {
     console.log(`ERROR ${collectionName}.${method}`, JSON.stringify(query), doc);
 });
-mongoose.connect(dbUrl, {useNewUrlParser: true, useUnifiedTopology: true});
+
+mongoose.connect('mongodb+srv://marcinporeba1995:yjf10D2eJ9m6pwef@cluster0.jsugvbv.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true,  useUnifiedTopology: true  });
 const db = mongoose.connection;
+
 db.once('open', () => {
     console.log('Connected to the database');
 });
@@ -55,6 +57,6 @@ app.get('*', (req, res) => {
 });
 
 
-app.listen(process.env.PORT || 8000, () => {
-    console.log('Server is running...');
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/client/build/index.html'));
 });
