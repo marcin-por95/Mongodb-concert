@@ -1,11 +1,8 @@
 import axios from 'axios';
 import { API_URL } from '../config';
 
-
 export const getConcerts = ({ concerts }) => concerts.data;
 export const getRequest = ({ concerts }) => concerts.request;
-
-
 
 
 const reducerName = 'concerts';
@@ -22,7 +19,6 @@ export const endRequest = () => ({ type: END_REQUEST });
 export const errorRequest = error => ({ error, type: ERROR_REQUEST });
 
 export const loadConcerts = payload => ({ payload, type: LOAD_CONCERTS });
-
 
 
 export const loadConcertsRequest = () => {
@@ -44,7 +40,6 @@ export const loadConcertsRequest = () => {
 };
 
 
-
 const initialState = {
   data: [],
   request: {
@@ -53,7 +48,6 @@ const initialState = {
     success: null,
   },
 };
-
 
 
 export default function reducer(statePart = initialState, action = {}) {

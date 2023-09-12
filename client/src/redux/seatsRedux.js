@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { API_URL } from '../config';
 
-/* SELECTORS */
 export const getSeats = ({ seats }) => seats.data;
 export const getRequests = ({ seats }) => seats.requests;
+
 
 const reducerName = 'seats';
 const createActionName = name => `app/${reducerName}/${name}`;
@@ -21,7 +21,6 @@ export const errorRequest = payload => ({ payload, type: ERROR_REQUEST });
 
 export const loadSeats = payload => ({ payload, type: LOAD_SEATS });
 export const addSeat = payload => ({ payload, type: ADD_SEAT });
-
 
 
 export const loadSeatsRequest = () => {
@@ -53,7 +52,6 @@ export const addSeatRequest = (seat) => {
       dispatch(addSeat(res));
       dispatch(endRequest({ name: 'ADD_SEAT' }));
 
-
       dispatch(loadSeatsRequest());
     } catch(e) {
       dispatch(errorRequest({ name: 'ADD_SEAT', error: e.message }));
@@ -63,12 +61,10 @@ export const addSeatRequest = (seat) => {
 };
 
 
-
 const initialState = {
   data: [],
   requests: {},
 };
-
 
 
 export default function reducer(statePart = initialState, action = {}) {
