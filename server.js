@@ -36,7 +36,7 @@ app.use((req, res) => {
     res.status(404).json({ message: 'Not found...' });
 });
 
-mongoose.connect('mongodb+srv://marcinporeba1995:N3G1Mt169Q4fG4M5@cluster0.jsugvbv.mongodb.net/NewWaveDB.concerts?retryWrites=true&w=majority', { useNewUrlParser: true,  useUnifiedTopology: true  });
+mongoose.connect('mongodb+srv://marcinporeba1995:N3G1Mt169Q4fG4M5@cluster0.jsugvbv.mongodb.net/NewWaveDB?retryWrites=true&w=majority', { useNewUrlParser: true,  useUnifiedTopology: true  });
 const db = mongoose.connection;
 db.once('open', () => {
     console.log('Connected to database')
