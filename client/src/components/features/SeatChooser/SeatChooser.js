@@ -11,7 +11,7 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
     console.log(seats);
     const requests = useSelector(getRequests);
 
-    const [socket, setSocket] = useState('');
+    const [socket, setSocket] = useState(null);
 
     useEffect(() => {
         const newSocket = io(process.env.PORT || "http://localhost:8000/");
@@ -20,16 +20,19 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
         setSocket(newSocket);
     }, [dispatch]);
 
+    // Function to check if a seat is already taken
     const isTaken = (seatId) => {
         return (seats.some(item => (item.seat === seatId && item.day === chosenDay)));
     }
 
+    // Function to render seat buttons based on their availability
     const prepareSeat = (seatId) => {
         if(seatId === chosenSeat) return <Button key={seatId} className="seats__seat" color="primary">{seatId}</Button>;
         else if(isTaken(seatId)) return <Button key={seatId} className="seats__seat" disabled color="secondary">{seatId}</Button>;
         else return <Button key={seatId} color="primary" className="seats__seat" outline onClick={(e) => updateSeat(e, seatId)}>{seatId}</Button>;
     }
 
+    // Counting taken and free seats
     const SEATS_NUMBERS = 50;
     const takenSeats = seats.filter(seat => seat.day === chosenDay).length;
     const freeSeats = SEATS_NUMBERS - takenSeats;
