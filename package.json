@@ -25,7 +25,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
     "sass": "^1.65.1",
-    "socket.io": "^2.2.0",
+    "socket.io": "^3.0.5",
     "socket.io-client": "^4.7.2",
     "thunk": "^0.0.1",
     "uuid": "^9.0.0",
